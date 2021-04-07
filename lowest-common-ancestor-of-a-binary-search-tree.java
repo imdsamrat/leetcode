@@ -32,3 +32,30 @@ class Solution {
         return false;
     }
 }
+
+
+class Solution {
+    TreeNode lca;
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if(root == null)
+            return null;
+        findLCA(root, p, q);
+        return lca;
+    }
+    
+    public boolean findLCA(TreeNode root, TreeNode p, TreeNode q) {
+        if(root == null)
+            return false;
+        boolean left = findLCA(root.left, p, q);
+        boolean right = findLCA(root.right, p, q);
+        if(left && right && lca == null)
+            lca = root;
+        if((left || right) && (root == p || root == q)){
+            lca = root;
+        }
+        if(root == p || root == q){
+            return true;
+        }
+        return left || right;
+    }
+}

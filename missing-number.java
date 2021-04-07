@@ -1,10 +1,11 @@
 class Solution {
     public int missingNumber(int[] nums) {
-        int n = nums.length;
-        int ans = n;
-        for(int i = 0; i < n; i++){
-            ans = ans ^ i ^ nums[i];
+        int i = 0;
+        int ans = 0;
+        for(int a : nums) {
+            ans = ans ^ a ^ i;
+            i++;
         }
-        return ans;
+        return ans ^ i;
     }
 }

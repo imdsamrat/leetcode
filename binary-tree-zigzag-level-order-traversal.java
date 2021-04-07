@@ -4,39 +4,35 @@
  *     int val;
  *     TreeNode left;
  *     TreeNode right;
- *     TreeNode(int x) { val = x; }
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
  * }
  */
 class Solution {
     public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        if(root == null)
+            return new ArrayList<>();
         List<List<Integer>> ans = new ArrayList<>();
-        if(root == null) return ans;
-        Queue<TreeNode> q = new LinkedList<TreeNode>();
-        // add the root element with a delimiter to kick off the BFS loop
+        Queue<TreeNode> q = new LinkedList<>();
         q.add(root);
-        q.add(null);
-        LinkedList<Integer> levelList = new LinkedList<Integer>();
         boolean isOrderLeft = true;
-        while (!q.isEmpty()) {
-            TreeNode temp = q.poll();
-            if (temp != null) {
-                if (isOrderLeft)
-                  levelList.addLast(temp.val);
-                else
-                  levelList.addFirst(temp.val);
-                if (temp.left != null)
-                  q.add(temp.left);
-                if (temp.right != null)
-                  q.add(temp.right);
-            } else {
-            // we finish the scan of one level
-                ans.add(levelList);
-                levelList = new LinkedList<Integer>();
-                // prepare for the next level
-                if (!q.isEmpty())
-                  q.add(null);
-                isOrderLeft = !isOrderLeft;
+        while(!q.isEmpty()) {
+            int size = q.size();
+            LinkedList<Integer> entry = new LinkedList<>();
+            for(int i = 0; i < size; i++) {
+                TreeNode temp = q.poll();
+                if(isOrderLeft) entry.addLast(temp.val);
+                else entry.addFirst(temp.val);
+                if(temp.left != null) q.add(temp.left);
+                if(temp.right != null) q.add(temp.right);
             }
+            isOrderLeft = !isOrderLeft;
+            ans.add(entry);
         }
         return ans;
     }
