@@ -15,38 +15,35 @@ class Node {
 
 class Solution {
     public Node copyRandomList(Node head) {
-        Node head2 = new Node(1);
+        // copy and insert node
         Node start = head;
-        
-        // copy and put node just next to the node
         while(start != null) {
-            Node node = new Node(start.val);
-            node.next = start.next;
-            start.next = node;
-            start = start.next.next;
+            Node newNode = new Node(start.val);
+            newNode.next = start.next;
+            start.next = newNode;
+            start = newNode.next;
         }
         
-        // update random pointer
+        // assign random pointer
         start = head;
         while(start != null) {
             Node node = start.next;
-            if(start.random != null)
-            node.random = start.random.next;
-            start = start.next.next;
+            if(start.random != null) 
+                node.random = start.random.next;
+            start = node.next;
         }
         
-        // detach the copy list
+        // detach and construct copy list 
         start = head;
-        Node start2 = head2;
+        Node newList = new Node(0);
+        Node start2 = newList;
         while(start != null) {
             Node node = start.next;
-            start2.next = node;
             start.next = node.next;
-            if(node.next != null)
-                node.next = node.next.next;
             start = start.next;
+            start2.next = node;
             start2 = start2.next;
         }
-        return head2.next;
+        return newList.next;
     }
 }

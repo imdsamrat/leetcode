@@ -12,7 +12,7 @@ class Solution {
         for(int i = 0; i < r; i++) {
             for(int j = 0; j < c; j++) {
                 if(grid[i][j] == '1') {
-                    process(i, j);
+                    dfs(i, j);
                     ans++;
                 }
             }
@@ -20,13 +20,13 @@ class Solution {
         return ans;
     }
     
-    public void process(int x, int y) {
+    public void dfs(int x, int y) {
         grid[x][y] = 0;
         for(int i = 0; i < N; i++) {
             int nX = x + xMove[i];
             int nY = y + yMove[i];
             if(isSafe(nX, nY))
-                process(nX, nY);
+                dfs(nX, nY);
         }
     }
     

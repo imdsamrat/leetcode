@@ -1,31 +1,41 @@
-class AugNode{
-    int dia;
-    int height;
-    public AugNode(int dia, int height){
-        this.dia = dia;
-        this.height = height;
-    }
-}
-
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
 class Solution {
-    public int diameterOfBinaryTree(TreeNode root) {
-        return diaUtil(root).dia;
+    class AugNode{
+        int dia;
+        int height;
+        AugNode(int dia, int height) {
+            this.dia = dia;
+            this.height = height;
+        }
     }
     
-    public AugNode diaUtil(TreeNode root){
-        AugNode ret = new AugNode(0, 0);
+    public int diameterOfBinaryTree(TreeNode root) {
+        AugNode ans = findDiameter(root);
+        return ans.dia;
+    }
+    
+    public AugNode findDiameter(TreeNode root) {
         if(root == null)
-            return ret;
-        if(root.left == null && root.right == null){
-            ret.height = 1;
-            return ret;
-        }
-
-        AugNode left = diaUtil(root.left);
-        AugNode right = diaUtil(root.right);
-       
-        ret.dia = Math.max(left.height + right.height, Math.max(left.dia, right.dia));
-        ret.height = Math.max(left.height, right.height) + 1;
-        return ret;
+            return new AugNode(0, 0);
+        AugNode left = findDiameter(root.left);
+        AugNode right = findDiameter(root.right);
+        
+        int dia = left.height + right.height;
+        dia = Math.max(dia, Math.max(left.dia, right.dia));
+        return new AugNode(dia, Math.max(left.height, right.height) + 1);
     }
 }
